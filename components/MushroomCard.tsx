@@ -12,11 +12,7 @@ const EDIBILITY_LABEL: Record<Mushroom['edibility'], string> = {
   poisonous: 'Trujący',
 };
 
-// Stała ale nierówna wysokość zdjęcia na karcie jak w prawdziwym
-// masonry gdzie wysokość zależy od zdjęcia a nie jest wszędzie taka sama
 const PHOTO_HEIGHTS = [132, 176, 152, 196, 140];
-// Nie losowa żeby nie było skoków w layout'cie
-// tylko cykliczna.
 
 export default function MushroomCard({ mushroom, index }: { mushroom: Mushroom; index: number }) {
   const photoHeight = PHOTO_HEIGHTS[index % PHOTO_HEIGHTS.length];

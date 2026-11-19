@@ -25,14 +25,14 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="mapa"
+        name="map"
         options={{
           title: 'Mapa',
           tabBarIcon: ({ color, size }) => <Ionicons name="map-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="dziennik"
+        name="journal"
         options={{
           title: 'Dziennik',
           tabBarIcon: ({ color, size }) => <Ionicons name="book-outline" size={size} color={color} />,
