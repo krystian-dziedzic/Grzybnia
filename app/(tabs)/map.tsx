@@ -9,7 +9,7 @@ import SpeciesPickerModal from '../../components/SpeciesPickerModal';
 import { mushrooms, Mushroom } from '../../data/mushrooms';
 import { colors, edibilityColor, fonts } from '../../theme/colors';
 
-export default function MapaScreen() {
+export default function MapScreen() {
   const { finds, addFind, removeFind } = useFinds();
   const [region, setRegion] = useState<Region | null>(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
@@ -37,7 +37,6 @@ export default function MapaScreen() {
 
   const mushroomById = (id: string): Mushroom | undefined => mushrooms.find((m) => m.id === id);
 
-  // Świeży odczyt GPS w momencie dodawania
   const handleAddPress = async () => {
     const position = await Location.getCurrentPositionAsync({});
     setPendingCoords({ latitude: position.coords.latitude, longitude: position.coords.longitude });
