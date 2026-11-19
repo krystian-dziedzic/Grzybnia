@@ -27,9 +27,6 @@ export default function AtlasScreen() {
     });
   }, [query, filter]);
 
-  //Masonry na dwie kolumny rozdzielamy wyniki parzysty/nieparzysty.
-  //To nie jest "prawdziwe" paczkowanie wg wysokości wymagałoby mierzenia kart
-  //ale przy stałych wysokościach zdjęć (PHOTO_HEIGHTS) daje ten sam nieregularny efekt.
   const { left, right } = useMemo(() => {
     const left: Mushroom[] = [];
     const right: Mushroom[] = [];
