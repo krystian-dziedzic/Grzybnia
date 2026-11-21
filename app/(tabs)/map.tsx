@@ -43,9 +43,15 @@ export default function MapScreen() {
     setPickerVisible(true);
   };
 
-  const handleSave = (mushroom: Mushroom, note: string) => {
+  const handleSave = (mushroom: Mushroom, note: string, photoUri?: string) => {
     if (!pendingCoords) return;
-    addFind({ mushroomId: mushroom.id, latitude: pendingCoords.latitude, longitude: pendingCoords.longitude, note });
+    addFind({
+      mushroomId: mushroom.id,
+      latitude: pendingCoords.latitude,
+      longitude: pendingCoords.longitude,
+      note,
+      photoUri,
+    });
     setPickerVisible(false);
   };
 

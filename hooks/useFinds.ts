@@ -8,6 +8,7 @@ export interface Find {
   longitude: number;
   note: string;
   createdAt: string;
+  photoUri?: string;
 }
 
 const STORAGE_KEY = 'grzybnia:finds';

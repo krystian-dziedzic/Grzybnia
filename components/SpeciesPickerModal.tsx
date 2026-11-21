@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { Modal, View, Text, TextInput, Pressable, FlatList, StyleSheet } from 'react-native';
+import { Modal, View, Text, TextInput, Pressable, Image, Alert, FlatList, StyleSheet } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { Ionicons } from '@expo/vector-icons';
 import { mushrooms, Mushroom } from '../data/mushrooms';
 import { colors, edibilityColor, fonts, radius } from '../theme/colors';
 
@@ -10,11 +12,12 @@ export default function SpeciesPickerModal({
 }: {
   visible: boolean;
   onClose: () => void;
-  onSave: (mushroom: Mushroom, note: string) => void;
+  onSave: (mushroom: Mushroom, note: string, photoUri?: string) => void;
 }) {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Mushroom | null>(null);
   const [note, setNote] = useState('');
+  const [photoUri, setPhotoUri] = useState<string | undefined>(undefined);
 
   const results = useMemo(
     () => mushrooms.filter((m) => m.name.toLowerCase().includes(query.toLowerCase())),
@@ -25,6 +28,35 @@ export default function SpeciesPickerModal({
     setQuery('');
     setSelected(null);
     setNote('');
+    setPhotoUri(undefined);
+  };
+
+  const pickFromCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Brak dostępu', 'Potrzebujemy dostępu do aparatu, żeby zrobić zdjęcie.');
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({ quality: 0.6 });
+    if (!result.canceled) setPhotoUri(result.assets[0].uri);
+  };
+
+  const pickFromLibrary = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Brak dostępu', 'Potrzebujemy dostępu do galerii, żeby wybrać zdjęcie.');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({ quality: 0.6, mediaTypes: ['images'] });
+    if (!result.canceled) setPhotoUri(result.assets[0].uri);
+  };
+
+  const handleAddPhoto = () => {
+    Alert.alert('Dodaj zdjęcie', undefined, [
+      { text: 'Aparat', onPress: pickFromCamera },
+      { text: 'Galeria', onPress: pickFromLibrary },
+      { text: 'Anuluj', style: 'cancel' },
+    ]);
   };
 
   return (
@@ -66,6 +98,19 @@ export default function SpeciesPickerModal({
                   <Text style={styles.change}>Zmień</Text>
                 </Pressable>
               </View>
+              {photoUri ? (
+                <View style={styles.photoPreviewWrap}>
+                  <Image source={{ uri: photoUri }} style={styles.photoPreview} />
+                  <Pressable style={styles.photoRemove} onPress={() => setPhotoUri(undefined)}>
+                    <Ionicons name="close" size={16} color={colors.text} />
+                  </Pressable>
+                </View>
+              ) : (
+                <Pressable style={styles.photoButton} onPress={handleAddPhoto}>
+                  <Ionicons name="camera-outline" size={18} color={colors.sage} />
+                  <Text style={styles.photoButtonText}>Dodaj zdjęcie</Text>
+                </Pressable>
+              )}
               <TextInput
                 style={[styles.input, styles.noteInput]}
                 placeholder="Notatka (opcjonalnie)..."
@@ -77,7 +122,7 @@ export default function SpeciesPickerModal({
               <Pressable
                 style={styles.saveButton}
                 onPress={() => {
-                  onSave(selected, note);
+                  onSave(selected, note, photoUri);
                   reset();
                 }}
               >
@@ -128,6 +173,27 @@ const styles = StyleSheet.create({
   rowName: { fontSize: 15, fontFamily: fonts.bodyMedium, color: colors.text, flex: 1 },
   rowLatin: { fontSize: 12, fontFamily: fonts.body, fontStyle: 'italic', color: colors.textMuted },
   change: { fontSize: 13, fontFamily: fonts.bodyMedium, color: colors.sage },
+  photoButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.surfaceRaised,
+    borderRadius: radius.md,
+    paddingVertical: 12,
+    marginBottom: 10,
+  },
+  photoButtonText: { fontFamily: fonts.bodyMedium, color: colors.sage, fontSize: 14 },
+  photoPreviewWrap: { marginBottom: 10 },
+  photoPreview: { width: '100%', height: 140, borderRadius: radius.md },
+  photoRemove: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    borderRadius: 12,
+    padding: 4,
+  },
   saveButton: {
     backgroundColor: colors.forestMuted,
     borderRadius: radius.md,
