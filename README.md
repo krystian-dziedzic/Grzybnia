@@ -41,8 +41,10 @@ theme/               kolory i styl aplikacji
 
 ## Demo
 
-![Atlas](./doc/1.jpg "Atlas")
-![Atlas](./doc/5.jpg "Atlas")
-![Mapa](./doc/2.jpg "Mapa")
-![Mapa](./doc/3.jpg "Mapa")
-![Dziennik](./doc/4.jpg "Dziennik")
+<p align="center">
+  <img src="./doc/1.jpg" width="240" alt="Atlas" title="Atlas" />
+  <img src="./doc/5.jpg" width="240" alt="Atlas" title="Atlas" />
+  <img src="./doc/2.jpg" width="240" alt="Mapa" title="Mapa" />
+  <img src="./doc/3.jpg" width="240" alt="Mapa" title="Mapa" />
+  <img src="./doc/4.jpg" width="240" alt="Dziennik" title="Dziennik" />
+</p>
