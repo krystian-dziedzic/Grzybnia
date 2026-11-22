@@ -41,4 +41,8 @@ theme/               kolory i styl aplikacji
 
 ## Demo
 
-_tutaj trafi filmik lub screeny prezentujące działającą aplikację_
+![Atlas](./doc/1.jpg "Atlas")
+![Atlas](./doc/5.jpg "Atlas")
+![Mapa](./doc/2.jpg "Mapa")
+![Mapa](./doc/3.jpg "Mapa")
+![Dziennik](./doc/4.jpg "Dziennik")
